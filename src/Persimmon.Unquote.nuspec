@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <id>Persimmon.Unquote</id>
+    <version>@build.number@</version>
+    <authors>bleis-tift, Gab-km, pocketberserker, kekyo, yukitos</authors>
+    <owners>bleis-tift, Gab-km, pocketberserker, kekyo, yukitos</owners>
+    <licenseUrl>https://github.com/persimmon-projects/Persimmon.Unquote/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/persimmon-projects/Persimmon.Unquote</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/persimmon-projects/Persimmon.Materials/master/StandardIcons/persimmon_128.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Persimmon.Unquote is a wrapper of Unquote.</description>
+    <releaseNotes>@releaseNotes@</releaseNotes>
+    <tags>F# fsharp testing</tags>
+    <dependencies>
+      <group targetFramework=".NETFramework4.5">
+        <dependency id="Persimmon" version="2.0.1" />
+      </group>
+      <group targetFramework="portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10">
+        <dependency id="Persimmon" version="2.0.1" />
+      </group>
+      <group targetFramework=".NETStandard1.6">
+        <dependency id="Persimmon" version="2.0.1" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="../src/Persimmon.Unquote/bin/Release/net45/Persimmon.Unquote.dll" target="lib/net45" />
+    <file src="../src/Persimmon.Unquote.NETCore/bin/Release/netstandard1.6/Persimmon.Unquote.dll" target="lib/netstandard1.6" />
+    <file src="Persimmon.Unquote.Portable259/Persimmon.Unquote.dll" target="lib/portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10" />
+    <file src="Persimmon.Unquote.Portable259/Persimmon.Unquote.XML" target="lib/portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10" />
+  </files>
+</package>

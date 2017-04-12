@@ -1,0 +1,12 @@
+<Project Sdk="FSharp.NET.Sdk;Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net45</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="AssertionTest.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FSharp.NET.Sdk" Version="1.0.*" PrivateAssets="All" />
+    <ProjectReference Include="..\..\src\Persimmon.Unquote\Persimmon.Unquote.fsproj" />
+  </ItemGroup>
+</Project>
