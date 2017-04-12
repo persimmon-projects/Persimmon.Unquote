@@ -9,7 +9,7 @@
     <projectUrl>https://github.com/persimmon-projects/Persimmon.Unquote</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/persimmon-projects/Persimmon.Materials/master/StandardIcons/persimmon_128.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Persimmon.Unquote is a wrapper of Unquote.</description>
+    <description>Persimmon.Unquote is a fork of Unquote for Persimmon.</description>
     <releaseNotes>@releaseNotes@</releaseNotes>
     <tags>F# fsharp testing</tags>
     <dependencies>
