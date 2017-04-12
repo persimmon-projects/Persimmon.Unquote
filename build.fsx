@@ -65,7 +65,7 @@ Target "AssemblyInfo" (fun _ ->
   !! "src/**/*.??proj"
   |> Seq.choose (fun p ->
     let name = Path.GetFileNameWithoutExtension(p)
-    if name.EndsWith("Profile259") then getProjectDetails p |> Some
+    if name.EndsWith("Portable259") then getProjectDetails p |> Some
     else None
   )
   |> Seq.iter (fun (projFileName, projectName, folderName, attributes) ->

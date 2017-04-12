@@ -2,7 +2,7 @@
 namespace System
 open System.Reflection
 
-[<assembly: AssemblyTitleAttribute("Persimmon.Unquote.Profile259")>]
+[<assembly: AssemblyTitleAttribute("Persimmon.Unquote")>]
 [<assembly: AssemblyProductAttribute("Persimmon.Unquote")>]
 [<assembly: AssemblyVersionAttribute("0.1.0")>]
 [<assembly: AssemblyFileVersionAttribute("0.1.0")>]
@@ -10,7 +10,7 @@ open System.Reflection
 do ()
 
 module internal AssemblyVersionInformation =
-    let [<Literal>] AssemblyTitle = "Persimmon.Unquote.Profile259"
+    let [<Literal>] AssemblyTitle = "Persimmon.Unquote"
     let [<Literal>] AssemblyProduct = "Persimmon.Unquote"
     let [<Literal>] AssemblyVersion = "0.1.0"
     let [<Literal>] AssemblyFileVersion = "0.1.0"
