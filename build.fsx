@@ -1,5 +1,4 @@
 #r @"packages/build/FAKE/tools/FakeLib.dll"
-#r @"packages/build/FAKE.Persimmon/lib/net451/FAKE.Persimmon.dll"
 open Fake
 open Fake.Git
 open Fake.AssemblyInfoFile
@@ -20,8 +19,10 @@ let project = "Persimmon.Unquote"
 
 let solutionFile = "Persimmon.Unquote.sln"
 
-// Pattern specifying assemblies to be tested using NUnit
-let testAssemblies = "tests/**/bin" @@ configuration @@ "**/*Tests*.dll"
+let net45Project = "src/Persimmon.Unquote/Persimmon.Unquote.fsproj"
+let netCoreProject = "src/Persimmon.Unquote.NETCore/Persimmon.Unquote.NETCore.fsproj"
+let net45TestProject = "tests/Persimmon.Unquote.Tests/Persimmon.Unquote.Tests.fsproj"
+let netCoreTestProject = "tests/Persimmon.Unquote.NETCore.Tests/Persimmon.Unquote.NETCore.Tests.fsproj"
 
 // Git configuration (used for publishing documentation in gh-pages branch)
 // The profile where the project is posted
@@ -109,10 +110,6 @@ Target "Build" (fun _ ->
 
   let args = [ sprintf "/p:Version=%s" release.NugetVersion ]
 
-  let net45Project = "src/Persimmon.Unquote/Persimmon.Unquote.fsproj"
-  let netCoreProject = "src/Persimmon.Unquote.NETCore/Persimmon.Unquote.NETCore.fsproj"
-  let testProject = "tests/Persimmon.Unquote.Tests/Persimmon.Unquote.Tests.fsproj"
-
   DotNetCli.Restore (fun p ->
     { p with
         Project = net45Project
@@ -141,12 +138,25 @@ Target "Build" (fun _ ->
 
   DotNetCli.Restore (fun p ->
     { p with
-        Project = testProject
+        Project = net45TestProject
     }
   )
   DotNetCli.Build (fun p ->
     { p with
-        Project = testProject
+        Project = net45TestProject
+        Configuration = configuration
+        AdditionalArgs = args
+    }
+  )
+
+  DotNetCli.Restore (fun p ->
+    { p with
+        Project = netCoreTestProject
+    }
+  )
+  DotNetCli.Build (fun p ->
+    { p with
+        Project = netCoreTestProject
         Configuration = configuration
         AdditionalArgs = args
     }
@@ -156,8 +166,18 @@ Target "Build" (fun _ ->
 // --------------------------------------------------------------------------------------
 // Run the unit tests using test runner
 Target "RunTests" (fun _ ->
-  !! testAssemblies
-  |> Persimmon id
+  DotNetCli.Test (fun p ->
+    { p with
+        Project = net45TestProject
+        Configuration = configuration
+    }
+  )
+  DotNetCli.Test (fun p ->
+    { p with
+        Project = netCoreTestProject
+        Configuration = configuration
+    }
+  )
 )
 
 #if MONO
