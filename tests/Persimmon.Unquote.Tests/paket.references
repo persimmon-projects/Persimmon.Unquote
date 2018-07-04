@@ -1,0 +1,5 @@
+Persimmon
+group Test
+  FSharp.Core
+  Persimmon.TestAdapter
+  Microsoft.NET.Test.Sdk

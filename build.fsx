@@ -19,15 +19,10 @@ let project = "Persimmon.Unquote"
 
 let solutionFile = "Persimmon.Unquote.sln"
 
-let net45Project = "src/Persimmon.Unquote/Persimmon.Unquote.fsproj"
-let netCoreProject = "src/Persimmon.Unquote.NETCore/Persimmon.Unquote.NETCore.fsproj"
-let net45TestProject = "tests/Persimmon.Unquote.Tests/Persimmon.Unquote.Tests.fsproj"
-let netCoreTestProject = "tests/Persimmon.Unquote.NETCore.Tests/Persimmon.Unquote.NETCore.Tests.fsproj"
-
 // Git configuration (used for publishing documentation in gh-pages branch)
 // The profile where the project is posted
 let gitOwner = "persimmon-projects"
-let gitHome = "https://github.com/" + gitOwner
+let gitHome = "git@github.com:" + gitOwner
 
 // The name of the project on GitHub
 let gitName = "Persimmon.Unquote"
@@ -49,7 +44,7 @@ let (|Fsproj|Csproj|Vbproj|) (projFileName:string) =
 // Generate assembly info files with the right version & up-to-date information
 Target "AssemblyInfo" (fun _ ->
   let getAssemblyInfoAttributes projectName =
-    [ Attribute.Title (projectName |> replace ".Portable259" "")
+    [ Attribute.Title projectName
       Attribute.Product project
       Attribute.Version release.AssemblyVersion
       Attribute.FileVersion release.AssemblyVersion
@@ -64,11 +59,7 @@ Target "AssemblyInfo" (fun _ ->
     )
 
   !! "src/**/*.??proj"
-  |> Seq.choose (fun p ->
-    let name = Path.GetFileNameWithoutExtension(p)
-    if name.EndsWith("Portable259") then getProjectDetails p |> Some
-    else None
-  )
+  |> Seq.map getProjectDetails
   |> Seq.iter (fun (projFileName, projectName, folderName, attributes) ->
     match projFileName with
     | Fsproj -> CreateFSharpAssemblyInfo (("src" @@ folderName) @@ "AssemblyInfo.fs") attributes
@@ -82,10 +73,6 @@ Target "AssemblyInfo" (fun _ ->
 // src folder to support multiple project outputs
 Target "CopyBinaries" (fun _ ->
   !! "src/**/*.??proj"
-  |> Seq.filter (fun p ->
-    let p = Path.GetFileNameWithoutExtension(p)
-    p.EndsWith("Portable259")
-  )
   |>  Seq.map (fun f -> ((System.IO.Path.GetDirectoryName f) @@ "bin" @@ configuration, outDir @@ (System.IO.Path.GetFileNameWithoutExtension f)))
   |>  Seq.iter (fun (fromDir, toDir) -> CopyDir toDir fromDir (fun _ -> true))
 )
@@ -104,80 +91,22 @@ Target "Clean" (fun _ ->
 
 Target "Build" (fun _ ->
 
+  DotNetCli.Restore (fun p ->
+    { p with
+        Project = solutionFile
+    }
+  )
+
   !! solutionFile
   |> MSBuild "" "Rebuild" [ ("Configuration", configuration) ]
   |> ignore
-
-  let args = [ sprintf "/p:Version=%s" release.NugetVersion ]
-
-  DotNetCli.Restore (fun p ->
-    { p with
-        Project = net45Project
-    }
-  )
-  DotNetCli.Build (fun p ->
-    { p with
-        Project = net45Project
-        Configuration = configuration
-        AdditionalArgs = args
-    }
-  )
-
-  DotNetCli.Restore (fun p ->
-    { p with
-        Project = netCoreProject
-    }
-  )
-  DotNetCli.Build (fun p ->
-    { p with
-        Project = netCoreProject
-        Configuration = configuration
-        AdditionalArgs = args
-    }
-  )
-
-  DotNetCli.Restore (fun p ->
-    { p with
-        Project = net45TestProject
-    }
-  )
-  DotNetCli.Build (fun p ->
-    { p with
-        Project = net45TestProject
-        Configuration = configuration
-        AdditionalArgs = args
-    }
-  )
-
-  DotNetCli.Restore (fun p ->
-    { p with
-        Project = netCoreTestProject
-    }
-  )
-  DotNetCli.Build (fun p ->
-    { p with
-        Project = netCoreTestProject
-        Configuration = configuration
-        AdditionalArgs = args
-    }
-  )
 )
 
 // --------------------------------------------------------------------------------------
 // Run the unit tests using test runner
 Target "RunTests" (fun _ ->
-  DotNetCli.Test (fun p ->
-    { p with
-        Project = net45TestProject
-        Configuration = configuration
-    }
-  )
-  DotNetCli.Test (fun p ->
-    { p with
-        Project = netCoreTestProject
-        Configuration = configuration
-    }
-  )
+  DotNetCli.Test (fun p -> { p with Project = "./tests/Persimmon.Unquote.Tests/Persimmon.Unquote.Tests.fsproj" })
+  DotNetCli.Test (fun p -> { p with Project = "./tests/Persimmon.Unquote.NETCore.Tests/Persimmon.Unquote.NETCore.Tests.fsproj" })
 )
 
 #if MONO
@@ -203,15 +132,11 @@ Target "SourceLink" (fun _ ->
 
 Target "NuGet" (fun _ ->
 
-  NuGet (fun p ->
-    {
-      p with
-        OutputPath = outDir
-        WorkingDir = outDir
+  Paket.Pack(fun p ->
+    { p with
+        OutputPath = "bin"
         Version = release.NugetVersion
-        ReleaseNotes = toLines release.Notes
-    }
-  ) "src/Persimmon.Unquote.nuspec"
+        ReleaseNotes = toLines release.Notes})
 )
 
 Target "PublishNuget" (fun _ ->

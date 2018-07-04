@@ -1,0 +1,6 @@
+FSharp.Core
+Persimmon
+System.Runtime.Serialization.Primitives
+group Legacy
+  FSharp.Core
+  Persimmon

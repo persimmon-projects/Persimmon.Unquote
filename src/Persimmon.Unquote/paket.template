@@ -1,0 +1,29 @@
+type project
+owners
+    bleis-tift, Gab-km, pocketberserker, kekyo, yukitos
+authors
+    bleis-tift, Gab-km, pocketberserker, kekyo, yukitos
+projectUrl
+    https://github.com/persimmon-projects/Persimmon.Unquote
+licenseUrl
+    https://github.com/persimmon-projects/Persimmon.Unquote/blob/master/LICENSE
+iconUrl
+    https://raw.githubusercontent.com/persimmon-projects/Persimmon.Materials/master/StandardIcons/persimmon_128.png
+requireLicenseAcceptance
+    false
+tags
+    fsharp fsharp testing
+description
+    Persimmon.Unquote is a fork of Unquote for Persimmon.
+dependencies
+  framework: net45
+    FSharp.Core >= LOCKEDVERSION-Legacy
+    Persimmon ~> LOCKED:Minor
+  framework: netstandard1.6
+    FSharp.Core >= LOCKEDVERSION
+    Persimmon ~> LOCKED:Minor
+files
+    bin/Release/net45/Persimmon.Unquote.dll ==> lib/net45
+    bin/Release/net45/Persimmon.Unquote.xml ==> lib/net45
+    bin/Release/netstandard1.6/Persimmon.Unquote.dll ==> lib/netstandard1.6
+    bin/Release/netstandard1.6/Persimmon.Unquote.xml ==> lib/netstandard1.6

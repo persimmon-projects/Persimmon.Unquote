@@ -1,12 +1,31 @@
 source https://api.nuget.org/v3/index.json
+framework netstandard1.6, netcoreapp2.0
 
-nuget Persimmon
+nuget FSharp.Core >= 4.3.4 lowest_matching:true
+nuget Persimmon ~> 4.0.2 lowest_matching:true
+nuget System.Runtime.Serialization.Primitives >= 4.3.0 lowest_matching:true
+
+group Legacy
+  framework: net45
+  source https://api.nuget.org/v3/index.json
+
+  nuget FSharp.Core >= 3.1.2.5 lowest_matching:true
+  nuget Persimmon ~> 4 lowest_matching:true
+
+group Test
+  framework netcoreapp2.0, net451
+  source https://api.nuget.org/v3/index.json
+
+  nuget FSharp.Core >= 4.5.0
+  nuget Persimmon.TestAdapter
+  nuget Microsoft.NET.Test.Sdk
 
 group Build
   source https://api.nuget.org/v3/index.json
 
-  nuget FAKE
+  nuget FAKE < 5
   nuget Nuget.CommandLine
   nuget SourceLink.Fake
+  nuget Octokit = 0.29
 
-  github fsharp/FAKE modules/Octokit/Octokit.fsx
+  github fsharp/FAKE:2bd41546d8549654ad4d4b5639425537afe5e1f7 modules/Octokit/Octokit.fsx

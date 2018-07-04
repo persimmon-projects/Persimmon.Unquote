@@ -1,0 +1,6 @@
+Persimmon
+System.Runtime.Serialization.Primitives
+group Test
+  FSharp.Core
+  Persimmon.TestAdapter
+  Microsoft.NET.Test.Sdk
