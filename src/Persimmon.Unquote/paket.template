@@ -22,6 +22,7 @@ dependencies
   framework: netstandard1.6
     FSharp.Core >= LOCKEDVERSION
     Persimmon ~> LOCKED:Minor
+    System.Runtime.Serialization.Primitives >= LOCKEDVERSION
 files
     bin/Release/net45/Persimmon.Unquote.dll ==> lib/net45
     bin/Release/net45/Persimmon.Unquote.xml ==> lib/net45
